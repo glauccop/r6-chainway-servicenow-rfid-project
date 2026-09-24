@@ -1,11 +1,21 @@
 # NowRFID
 
-App RFID UHF (leitor Chainway R6, via BLE) + código de barras/QR Code, integrado ao ServiceNow para apoiar o cadastramento de ativos no módulo EAM (Enterprise Asset Management).
+Leitura **e gravação** de tags RFID UHF (leitor Chainway R6 via Bluetooth LE), leitura de códigos de barras e QR Code, com envio para o ServiceNow como staging para o cadastramento de ativos no EAM.
 
-Veja o plano completo em [`docs/PLAN.md`](docs/PLAN.md).
+| Pasta | Conteúdo |
+|---|---|
+| [`android-app/`](android-app/README.md) | App Android "NowRFID" — React Native + TypeScript com ponte Kotlin para o SDK Chainway |
+| [`servicenow-app/`](servicenow-app/README.md) | App escopado ServiceNow "NowRFID" (Fluent / Now SDK): tabelas de staging, roles/ACLs e Scripted REST API |
+| [`docs/`](docs/) | [Plano](docs/PLAN.md), [contrato da API](docs/api-contract.md), [estudo do SDK Chainway](docs/chainway-sdk-findings.md), [modelo de dados EAM](docs/servicenow-eam-datamodel.md), [roadmap](docs/roadmap.md) |
 
-## Estrutura planejada
+## Fluxo
 
-- `android-app/` — app "NowRFID" em React Native + TypeScript, com módulo nativo Kotlin (bridge) para o SDK Chainway.
-- `servicenow-app/` — app escopado ServiceNow "NowRFID" (Fluent / Now SDK): tabelas de staging + Scripted REST API.
-- `docs/` — plano, achados técnicos e roadmap.
+```
+R6 --BLE--> app NowRFID (lote offline) --HTTPS--> /api/x_nowrfid/nowrfid/batch --> Scan Batch / Scan Item
+                                                                          (Fase 2: promoção para alm_asset / EAM)
+```
+
+## Começando
+
+1. Deploy do app ServiceNow: [`servicenow-app/README.md`](servicenow-app/README.md)
+2. Build e instalação do app Android: [`android-app/README.md`](android-app/README.md)
